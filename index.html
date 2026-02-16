@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Protocolo 21 dias de clareamento</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --ink: #0f0f10;
+      --muted: #5b5f66;
+      --card: #ffffff;
+      --line: rgba(0,0,0,.08);
+      --accent: #21b057;         /* verde CTA */
+      --accent-2: #c7a255;       /* dourado */
+      --shadow: 0 10px 30px rgba(0,0,0,.12);
+      --radius: 16px;
+      --max: 980px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 18px 16px; }
+    .topbar {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(255,255,255,.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar .row {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .brand {
+      display: flex; align-items: baseline; gap: 10px;
+      font-weight: 800; letter-spacing: -0.02em;
+    }
+    .brand small { font-weight: 600; color: var(--muted); }
+    .pill {
+      font-size: 12px; font-weight: 800;
+      padding: 8px 10px; border-radius: 999px;
+      border: 1px solid rgba(199,162,85,.35);
+      color: #6e5320;
+      background: rgba(199,162,85,.10);
+      white-space: nowrap;
+    }
+
+    /* HERO (imagem + overlay) */
+    .hero {
+      padding: 10px 0 0;
+    }
+    .hero-card {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .hero-card img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+    .overlay {
+      position: absolute;
+      left: 12px; right: 12px; bottom: 12px;
+      display: grid; gap: 10px;
+    }
+    .pricebox {
+      display: grid; gap: 6px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.68);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.14);
+    }
+    .pricebox .label {
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .9;
+    }
+    .pricebox .price {
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+      font-weight: 900;
+    }
+    .pricebox .price .big { font-size: 34px; line-height: 1; }
+    .pricebox .price .small { font-size: 14px; opacity: .9; font-weight: 700; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 100%;
+      padding: 14px 14px;
+      font-weight: 900;
+      border-radius: 14px;
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 14px 26px rgba(33,176,87,.22);
+      transition: transform .08s ease;
+    }
+    .btn:active { transform: scale(.99); }
+    .btn span {
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    .btn .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,.95);
+      box-shadow: 0 0 0 6px rgba(255,255,255,.18);
+    }
+    .hint {
+      font-size: 12px; color: rgba(255,255,255,.92);
+      opacity: .95;
+    }
+
+    /* Seções com imagens do PDF */
+    .img-section {
+      padding: 16px 0 0;
+    }
+    .img-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 26px rgba(0,0,0,.08);
+      background: #fff;
+    }
+    .img-card img { width: 100%; display: block; height: auto; }
+
+    /* Oferta (HTML) */
+    .offer {
+      padding: 18px 0 6px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 12px 26px rgba(0,0,0,.08);
+      overflow: hidden;
+    }
+    .card .pad { padding: 16px; }
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+    .offer h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+    .offer p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+    .list {
+      display: grid; gap: 10px;
+      margin: 12px 0 14px;
+      padding: 0;
+      list-style: none;
+    }
+    .list li {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      color: #212327;
+      font-weight: 650;
+      line-height: 1.35;
+      font-size: 14px;
+    }
+    .check {
+      width: 18px; height: 18px; border-radius: 6px;
+      background: rgba(33,176,87,.12);
+      border: 1px solid rgba(33,176,87,.25);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 900;
+      margin-top: 1px;
+    }
+    .price-card {
+      display: grid; gap: 8px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(199,162,85,.35);
+      background: rgba(199,162,85,.10);
+    }
+    .price-card .now {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+    }
+    .price-card .now .left {
+      font-weight: 900;
+      font-size: 14px;
+      color: #6e5320;
+    }
+    .price-card .now .right {
+      font-weight: 950;
+      font-size: 28px;
+      color: #1a1a1b;
+    }
+    .price-card .sub {
+      font-size: 13px;
+      color: #6e5320;
+      font-weight: 700;
+    }
+    .btn.secondary {
+      background: #0f1011;
+      box-shadow: 0 14px 26px rgba(0,0,0,.18);
+    }
+
+    /* Autor */
+    .author {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+    .author img {
+      width: 120px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 24px rgba(0,0,0,.10);
+      display: block;
+    }
+    .author h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+    .author .bio {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    /* Barra fixa mobile */
+    .sticky-cta {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 50;
+      padding: 10px 12px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 8px;
+    }
+    .sticky-cta .mini {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 10px;
+      font-weight: 900;
+    }
+    .sticky-cta .mini small {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    /* Espaço para a barra fixa */
+    .bottom-space { height: 96px; }
+
+    /* Desktop ajustes */
+    @media (min-width: 860px) {
+      .overlay {
+        left: 18px; right: 18px; bottom: 18px;
+        width: 420px;
+      }
+      .grid {
+        grid-template-columns: 1.05fr .95fr;
+        align-items: center;
+      }
+      .sticky-cta { display: none; }
+      .bottom-space { height: 0; }
+      .offer h2 { font-size: 24px; }
+    }
+  
+/* Ajustes mobile-first (zoom e cortes suaves para texto ficar maior) */
+.zoom-hero img{
+  transform: scale(1.28);
+  transform-origin: 50% 22%;
+}
+.zoom-card img{
+  transform: scale(1.16);
+  transform-origin: 50% 12%;
+}
+.crop-soft img{
+  clip-path: inset(18px 0 18px 0);
+}
+
+/* Acesso - 2 imagens por linha */
+.access{
+  padding: 18px 0 6px;
+}
+.access h2{
+  font-size: 1.05rem;
+  margin: 0 0 12px;
+  letter-spacing: .2px;
+}
+.access-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (min-width: 520px){
+  .zoom-hero img{ transform: scale(1.18); }
+  .zoom-card img{ transform: scale(1.10); }
+  .crop-soft img{ clip-path: inset(14px 0 14px 0); }
+  .access-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+  </style>
+</head>
+
+<body>
+<main class="wrap">
+    <!-- HERO (imagem original) -->
+    <section class="hero" aria-label="Início">
+  <div class="hero-card zoom-hero">
+    <img src="assets/page_01.png" alt="Protocolo 21 Dias - Página inicial" loading="eager" />
+  </div>
+</section>
+
+    <!-- Seções de imagem (do PDF) -->
+    <section class="img-section" aria-label="Conteúdo 2">
+      <div class="img-card zoom-card crop-soft"><img src="assets/page_02.png" alt="Conteúdo 2" loading="lazy" /></div>
+    </section>
+    <section class="img-section" aria-label="Conteúdo 3">
+      <div class="img-card zoom-card crop-soft"><img src="assets/page_03.png" alt="Conteúdo 3" loading="lazy" /></div>
+    </section>
+    <section class="img-section" aria-label="Conteúdo 4">
+      <div class="img-card zoom-card crop-soft"><img src="assets/page_04.png" alt="Conteúdo 4" loading="lazy" /></div>
+    </section>
+    <section class="img-section" aria-label="Conteúdo 5">
+      <div class="img-card zoom-card crop-soft"><img src="assets/page_05.png" alt="Conteúdo 5" loading="lazy" /></div>
+    </section>
+
+<section class="access" aria-label="Acesso ao protocolo">
+  <h2>Acesso em 1 minuto (sem complicação)</h2>
+  <div class="access-grid">
+    <div class="img-card zoom-card crop-soft"><img src="assets/page_06.png" alt="Acesso - passo 1" loading="lazy" /></div>
+    <div class="img-card zoom-card crop-soft"><img src="assets/page_07.png" alt="Acesso - passo 2" loading="lazy" /></div>
+    <div class="img-card zoom-card crop-soft"><img src="assets/page_08.png" alt="Acesso - passo 3" loading="lazy" /></div>
+  </div>
+</section>
+
+
+
+    <!-- Oferta (reconstruída para NÃO mostrar o preço antigo do PDF) -->
+    <section class="offer" id="oferta" aria-label="Oferta">
+      <div class="card">
+        <div class="pad">
+          <div class="grid">
+            <div>
+              <img src="assets/bundle_01.png" alt="Conteúdo do protocolo" style="width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 10px 24px rgba(0,0,0,.10);" loading="lazy" />
+            </div>
+            <div>
+              <h2>Leve o Protocolo 21 dias (passo a passo)</h2>
+              <p>Rotina simples e guiada, feita para quem quer clarear com cuidado — sem “testar coisas no escuro”.</p>
+
+              <ul class="list">
+                <li><span class="check">✓</span>Voltar a se sentir confortável no próprio corpo (sem vergonha).</li>
+                <li><span class="check">✓</span>Ter controle: parar de depender de algo que “vai e volta”.</li>
+                <li><span class="check">✓</span>Solução simples, barata e segura — sem virar refém de produto perigoso.</li>
+                <li><span class="check">✓</span>Certeza do que pode / do que não pode usar (sem insegurança).</li>
+              </ul>
+
+              <div class="price-card" aria-label="Preço atualizado">
+                <div class="now">
+                  <div class="left">Hoje</div>
+                  <div class="right">R$ 47,00</div>
+                </div>
+                <div class="sub">12x de R$ 3,92 • acesso imediato</div>
+              </div>
+
+              <div style="height:10px"></div>
+              <a class="btn secondary" href="#" data-checkout>
+                <span><span class="dot"></span> QUERO GARANTIR MINHA VAGA AGORA!</span>
+              </a>
+
+              <p style="margin-top:10px;font-size:12px;color:var(--muted);">
+                *Conteúdo educativo para cuidados com a pele da região íntima externa. Se houver irritação ou condição de pele, procure um profissional de saúde.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quem preparou -->
+    <section class="offer" aria-label="Quem preparou">
+      <div class="card">
+        <div class="pad">
+          <div class="author">
+            <img src="assets/author_01.png" alt="Foto da especialista" loading="lazy" />
+            <div>
+              <h3>Quem preparou o protocolo</h3>
+              <p class="bio">
+                Uma rotina guiada, organizada em passos curtos — pensada para reduzir erro, exagero e irritação.
+                O objetivo aqui é te dar clareza e segurança para executar do jeito certo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+<!-- Rodapé (sem CNPJ, conforme pedido) -->
+    <footer class="wrap" style="padding: 14px 16px 26px;">
+      <div style="border-top:1px solid var(--line); padding-top: 14px; color: var(--muted); font-size: 12px; line-height: 1.35;">
+        Protocolo 21 dias de clareamento • © 2026<br/>
+        Este site apresenta conteúdo educativo e informativo. Resultados variam de pessoa para pessoa.
+      </div>
+    </footer>
+  </main>
+<div style="color:var(--accent-2)">Oferta</div>
+    </div>
+    <a class="btn" href="#" data-checkout><span><span class="dot"></span> GARANTIR AGORA</span></a>
+  </div>
+
+  <script>
+    // Configure aqui o checkout (ou troque pelo seu link do ConverteAI/Hotmart/etc)
+    const CHECKOUT_URL = "https://SEU-CHECKOUT-AQUI.com";
+    document.querySelectorAll("[data-checkout]").forEach(el => {
+      el.setAttribute("href", CHECKOUT_URL);
+    });
+  </script>
+</body>
+</html>
